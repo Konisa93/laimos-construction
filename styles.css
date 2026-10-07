@@ -6,7 +6,9 @@
   --paper: #f4f3f0;      /* the paper of the cover drawing */
   --sand: #e9e5dc;
   --ink: #262422;
-  --stone: #77726a;
+  --stone: #666159;
+  --wide: 1560px;         /* content never gets wider than this; it centres on larger screens */
+  --edge: max(var(--gutter), calc((100% - var(--wide)) / 2));
   --line: #d6d1c7;
   --oak: #8b6b4a;
   --gutter: clamp(20px, 5vw, 80px);
@@ -61,7 +63,7 @@ p + p { margin-top: 1.1em; }
 .top {
   position: sticky; top: 0; z-index: 20;
   display: flex; align-items: center; gap: clamp(16px, 3vw, 44px);
-  padding: 18px max(var(--gutter), env(safe-area-inset-right)) 18px max(var(--gutter), env(safe-area-inset-left));
+  padding: 18px max(var(--edge), env(safe-area-inset-right)) 18px max(var(--edge), env(safe-area-inset-left));
   background: rgb(244 243 240 / 0.93);
   -webkit-backdrop-filter: blur(10px);
   backdrop-filter: blur(10px);
@@ -102,12 +104,12 @@ p + p { margin-top: 1.1em; }
 
 /* Opening screen: the slogan over the cover drawing */
 .hero {
-  min-height: calc(100vh - 76px);
-  min-height: calc(100svh - 76px);
+  min-height: calc(100vh - 86px);
+  min-height: calc(100svh - 86px);
   display: flex; flex-direction: column; justify-content: space-between;
   overflow: hidden;
 }
-.hero__text { padding: clamp(40px, 7vh, 96px) var(--gutter) 0; }
+.hero__text { padding: clamp(40px, 7vh, 96px) var(--edge) 0; }
 .hero h1 {
   font-size: clamp(1.5rem, 5.2vw, 5.25rem);
   font-weight: 200; letter-spacing: 0.3em; text-transform: uppercase; line-height: 1.25;
@@ -116,12 +118,12 @@ p + p { margin-top: 1.1em; }
 .hero__text .caps { margin-top: clamp(16px, 2.4vw, 32px); }
 
 /* The drawing is as wide as the screen allows while the whole opening still fits in one view */
-.hero__art { position: relative; padding-bottom: 64px; margin-left: auto; width: min(100%, calc((100svh - 340px) * 2.473)); min-width: min(100%, 720px); }
+.hero__art { position: relative; padding-bottom: 64px; margin-left: auto; margin-right: max(0px, calc((100% - var(--wide)) / 2)); width: min(100%, var(--wide), calc((100svh - 310px - 3.5vw) * 2.473)); min-width: min(100%, 720px); }
 .hero__art img {
   width: 100%;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%), linear-gradient(to right, transparent, #000 7%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 14%), linear-gradient(to right, transparent, #000 7%, #000 97%, transparent);
   -webkit-mask-composite: source-in;
-  mask-image: linear-gradient(to bottom, transparent, #000 14%), linear-gradient(to right, transparent, #000 7%);
+  mask-image: linear-gradient(to bottom, transparent, #000 14%), linear-gradient(to right, transparent, #000 7%, #000 97%, transparent);
   mask-composite: intersect;
 }
 
@@ -151,7 +153,7 @@ p + p { margin-top: 1.1em; }
 .about {
   display: grid; grid-template-columns: minmax(0, 6fr) minmax(0, 5fr);
   gap: clamp(36px, 7vw, 120px); align-items: center;
-  padding: var(--section) var(--gutter);
+  padding: var(--section) var(--edge);
 }
 .about h2 { margin-bottom: 14px; }
 .about .caps { margin-bottom: 40px; }
@@ -164,7 +166,7 @@ p + p { margin-top: 1.1em; }
 .figures dt { margin-top: 10px; font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase; line-height: 1.7; color: var(--stone); }
 
 /* What we do */
-.services { padding: var(--section) var(--gutter); background: var(--sand); }
+.services { padding: var(--section) var(--edge); background: var(--sand); }
 .services h2 { margin-bottom: clamp(36px, 5vw, 80px); }
 .services__list { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(24px, 3vw, 56px); }
 .services__list li { padding-top: 24px; border-top: 1px solid var(--ink); }
@@ -172,7 +174,7 @@ p + p { margin-top: 1.1em; }
 .services__list p { font-size: 1rem; color: #4a4741; }
 
 /* Work: a few chapters, each with a handful of large photographs */
-.work { padding: 0 var(--gutter); }
+.work { padding: 0 var(--edge); }
 .chapter { padding-top: var(--section); }
 .chapter__head { margin-bottom: clamp(28px, 4vw, 60px); }
 .chapter__head h2 { max-width: 16ch; margin-bottom: 16px; }
@@ -192,7 +194,7 @@ p + p { margin-top: 1.1em; }
 .shot__cap { display: block; padding-top: 12px; font-size: 0.6875rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--stone); }
 
 /* New build */
-.build { padding: var(--section) var(--gutter); }
+.build { padding: var(--section) var(--edge); }
 .build__hero { aspect-ratio: 16 / 9; }
 .build__intro {
   display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 96px);
@@ -224,7 +226,7 @@ p + p { margin-top: 1.1em; }
 .stage__steps .is-now::before, .stage__steps .is-done::before { color: var(--oak); }
 
 /* Contact and footer */
-.contact { background: var(--ink); color: var(--paper); padding: var(--section) var(--gutter) calc(48px + env(safe-area-inset-bottom)); }
+.contact { background: var(--ink); color: var(--paper); padding: var(--section) var(--edge) calc(48px + env(safe-area-inset-bottom)); }
 .contact__main { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(36px, 6vw, 96px); }
 .contact h2 { margin-bottom: 28px; }
 .contact__list { margin-bottom: 44px; }
@@ -317,4 +319,39 @@ p + p { margin-top: 1.1em; }
   .top.is-hidden { transform: none; }
   .shot img { transition: none; }
   .shot:hover img { transform: none; }
+}
+
+/* Rows laid out as in the company book: photos keep their own shape and share one height per row */
+.chapter__rows { display: flex; flex-direction: column; gap: clamp(12px, 1.8vw, 28px); }
+.row { display: flex; gap: clamp(12px, 1.8vw, 28px); }
+.row .shot { flex: var(--r) 1 0; min-width: 0; aspect-ratio: var(--r); }
+@media (max-width: 560px) {
+  .row { flex-direction: column; }
+  .row .shot { flex: none; }
+}
+
+/* What we do: each service is a name, a short line and a sentence. On first view the rule above
+   each one is drawn from the left and its text follows, one column after another. */
+.services__list li { position: relative; border-top: 0; }
+.services__list li::before { content: ""; position: absolute; top: 0; left: 0; right: 0; border-top: 1px solid var(--ink); transform-origin: left; }
+/* Name, line and sentence share rows across the columns, so they line up whatever the text length */
+.services__list { row-gap: 0; }
+.services__list li { display: grid; grid-template-rows: subgrid; grid-row: span 3; row-gap: 16px; padding-bottom: clamp(24px, 3vw, 56px); }
+.services__list .caps { margin: 0; }
+.services__list h3 { font-size: clamp(1.4rem, 1.9vw, 1.75rem); font-weight: 200; line-height: 1.2; min-height: 0; margin: 0; }
+.services__list li > p { margin: 0; }
+
+.services__list.will-draw li::before { transform: scaleX(0); }
+.services__list.will-draw li > * { opacity: 0; transform: translateY(16px); }
+.services__list.will-draw.is-in li::before { transform: none; transition-property: transform; transition-duration: 1100ms; transition-timing-function: cubic-bezier(0.2, 0.7, 0.1, 1); }
+.services__list.will-draw.is-in li > * { opacity: 1; transform: none; transition-property: opacity, transform; transition-duration: 800ms; transition-timing-function: ease, cubic-bezier(0.2, 0.7, 0.1, 1); }
+.services__list.is-in li:nth-child(2)::before { transition-delay: 180ms; }
+.services__list.is-in li:nth-child(3)::before { transition-delay: 360ms; }
+.services__list.is-in li:nth-child(4)::before { transition-delay: 540ms; }
+.services__list.is-in li:nth-child(1) > * { transition-delay: 250ms; }
+.services__list.is-in li:nth-child(2) > * { transition-delay: 430ms; }
+.services__list.is-in li:nth-child(3) > * { transition-delay: 610ms; }
+.services__list.is-in li:nth-child(4) > * { transition-delay: 790ms; }
+@media (prefers-reduced-motion: reduce) {
+  .services__list.will-draw li::before, .services__list.will-draw li > * { transform: none; opacity: 1; transition: none; }
 }

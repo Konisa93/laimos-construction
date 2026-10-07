@@ -58,6 +58,8 @@
       });
     }, { rootMargin: "0px 0px -8% 0px", threshold: 0.08 });
     revealItems.forEach(function (el) { el.classList.add("reveal"); observer.observe(el); });
+    // The four services draw their rules and bring in their text one after another
+    document.querySelectorAll(".services__list").forEach(function (el) { el.classList.add("will-draw"); observer.observe(el); });
   }
 
   // Photo viewer: steps through the photos of the group that was opened
